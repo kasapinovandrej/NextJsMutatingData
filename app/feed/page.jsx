@@ -1,5 +1,15 @@
-import Posts from '@/components/posts';
-import { getPosts } from '@/lib/posts';
+import Posts from "@/components/posts";
+import { getPosts } from "@/lib/posts";
+
+export const generateMetadata = async () => {
+  const posts = await getPosts();
+  const numberOfPosts = posts.length;
+
+  return {
+    title: `Browse all our ${numberOfPosts} posts.`,
+    description: "Browse our latest posts!",
+  };
+};
 
 export default async function FeedPage() {
   const posts = await getPosts();

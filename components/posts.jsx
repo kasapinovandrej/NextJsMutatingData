@@ -3,12 +3,30 @@ import { formatDate } from "@/lib/format";
 import LikeButton from "./like-icon";
 import { togglePostLikeStatus } from "@/actions/posts";
 import { useOptimistic } from "react";
+import Image from "next/image";
 
 function Post({ post, action }) {
+  const imageLoader = (config) => {
+    const urlStart = config.src.split("upload/")[0];
+    const urlEnd = config.src.split("upload/")[1];
+    const transformations = `w_200,q_${config.quality}`;
+    return `${urlStart}upload/${transformations}/${urlEnd}`;
+  };
+
   return (
     <article className="post">
+      {/* 
+      - da ne bi slika bila preko celog ekrana, u css dodajem position relative i width i height na perent container-u, 
+      - quality prop mogu da smanjim (od 0 do 100) kako bih poboljsao performase
+      */}
       <div className="post-image">
-        <img src={post.image} alt={post.title} />
+        <Image
+          loader={imageLoader}
+          src={post.image}
+          fill
+          alt={post.title}
+          quality={50}
+        />
       </div>
       <div className="post-content">
         <header>
